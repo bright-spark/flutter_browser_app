@@ -277,52 +277,50 @@ class BrowserModel extends ChangeNotifier {
     Map<String, dynamic> browserData;
     try {
       String? source = prefs.getString("browser");
-      if (source != null) {
-        browserData = await json.decode(source);
+      browserData = await json.decode(source);
 
-        clearFavorites();
-        closeAllTabs();
-        clearWebArchives();
+      clearFavorites();
+      closeAllTabs();
+      clearWebArchives();
 
-        List<Map<String, dynamic>> favoritesList =
-            browserData["favorites"]?.cast<Map<String, dynamic>>() ?? [];
-        List<FavoriteModel> favorites =
-            favoritesList.map((e) => FavoriteModel.fromMap(e)!).toList();
+      List<Map<String, dynamic>> favoritesList =
+          browserData["favorites"]?.cast<Map<String, dynamic>>() ?? [];
+      List<FavoriteModel> favorites =
+          favoritesList.map((e) => FavoriteModel.fromMap(e)!).toList();
 
-        Map<String, dynamic> webArchivesMap =
-            browserData["webArchives"]?.cast<String, dynamic>() ?? {};
-        Map<String, WebArchiveModel> webArchives = webArchivesMap.map(
-            (key, value) => MapEntry(
-                key, WebArchiveModel.fromMap(value?.cast<String, dynamic>())!));
+      Map<String, dynamic> webArchivesMap =
+          browserData["webArchives"]?.cast<String, dynamic>() ?? {};
+      Map<String, WebArchiveModel> webArchives = webArchivesMap.map(
+          (key, value) => MapEntry(
+              key, WebArchiveModel.fromMap(value?.cast<String, dynamic>())!));
 
-        BrowserSettings settings = BrowserSettings.fromMap(
-                browserData["settings"]?.cast<String, dynamic>()) ??
-            BrowserSettings();
-        List<Map<String, dynamic>> webViewTabList =
-            browserData["webViewTabs"]?.cast<Map<String, dynamic>>() ?? [];
-        List<WebViewTab> webViewTabs = webViewTabList
-            .map((e) => WebViewTab(
-                  key: GlobalKey(),
-                  webViewModel: WebViewModel.fromMap(e)!,
-                ))
-            .toList();
-        webViewTabs.sort((a, b) =>
-            a.webViewModel.tabIndex!.compareTo(b.webViewModel.tabIndex!));
+      BrowserSettings settings = BrowserSettings.fromMap(
+              browserData["settings"]?.cast<String, dynamic>()) ??
+          BrowserSettings();
+      List<Map<String, dynamic>> webViewTabList =
+          browserData["webViewTabs"]?.cast<Map<String, dynamic>>() ?? [];
+      List<WebViewTab> webViewTabs = webViewTabList
+          .map((e) => WebViewTab(
+                key: GlobalKey(),
+                webViewModel: WebViewModel.fromMap(e)!,
+              ))
+          .toList();
+      webViewTabs.sort((a, b) =>
+          a.webViewModel.tabIndex!.compareTo(b.webViewModel.tabIndex!));
 
-        addFavorites(favorites);
-        addWebArchives(webArchives);
-        updateSettings(settings);
-        addTabs(webViewTabs);
+      addFavorites(favorites);
+      addWebArchives(webArchives);
+      updateSettings(settings);
+      addTabs(webViewTabs);
 
-        int currentTabIndex =
-            browserData["currentTabIndex"] ?? _currentTabIndex;
-        currentTabIndex = min(currentTabIndex, _webViewTabs.length - 1);
+      int currentTabIndex =
+          browserData["currentTabIndex"] ?? _currentTabIndex;
+      currentTabIndex = min(currentTabIndex, _webViewTabs.length - 1);
 
-        if (currentTabIndex >= 0) {
-          showTab(currentTabIndex);
-        }
+      if (currentTabIndex >= 0) {
+        showTab(currentTabIndex);
       }
-    } catch (e) {
+        } catch (e) {
       if (kDebugMode) {
         print(e);
       }

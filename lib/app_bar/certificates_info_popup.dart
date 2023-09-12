@@ -1329,7 +1329,7 @@ class _CertificateInfoPopupState extends State<CertificateInfoPopup> {
                           await getExternalStorageDirectory();
                       await FlutterDownloader.enqueue(
                         url: cRLDistributionPoints.crls![i],
-                        savedDir: directory!.path,
+                        savedDir: directory.path,
                         showNotification:
                             true, // show download progress in status bar (for Android)
                         openFileFromNotification:
@@ -1434,7 +1434,7 @@ class _CertificateInfoPopupState extends State<CertificateInfoPopup> {
                           await getExternalStorageDirectory();
                       await FlutterDownloader.enqueue(
                         url: value,
-                        savedDir: directory!.path,
+                        savedDir: directory.path,
                         showNotification:
                             true, // show download progress in status bar (for Android)
                         openFileFromNotification:

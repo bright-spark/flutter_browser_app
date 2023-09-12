@@ -217,7 +217,7 @@ class _WebViewTabState extends State<WebViewTab> with WidgetsBindingObserver {
         widget.webViewModel.title = await titleFuture;
 
         List<Favicon>? favicons = await faviconsFuture;
-        if (favicons != null && favicons.isNotEmpty) {
+        if (favicons.isNotEmpty) {
           for (var fav in favicons) {
             if (widget.webViewModel.favicon == null) {
               widget.webViewModel.favicon = fav;

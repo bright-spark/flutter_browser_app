@@ -273,20 +273,18 @@ class _LongPressAlertDialogState extends State<LongPressAlertDialog> {
       title: const Text("Download image"),
       onTap: () async {
         String? url = widget.hitTestResult.extra;
-        if (url != null) {
-          var uri = Uri.parse(widget.hitTestResult.extra!);
-          String path = uri.path;
-          String fileName = path.substring(path.lastIndexOf('/') + 1);
-          Directory? directory = await getExternalStorageDirectory();
-          await FlutterDownloader.enqueue(
-            url: url,
-            fileName: fileName,
-            savedDir: directory!.path,
-            showNotification: true,
-            openFileFromNotification: true,
-          );
-        }
-        if (mounted) {
+        var uri = Uri.parse(widget.hitTestResult.extra!);
+        String path = uri.path;
+        String fileName = path.substring(path.lastIndexOf('/') + 1);
+        Directory? directory = await getExternalStorageDirectory();
+        await FlutterDownloader.enqueue(
+          url: url,
+          fileName: fileName,
+          savedDir: directory.path,
+          showNotification: true,
+          openFileFromNotification: true,
+        );
+              if (mounted) {
           Navigator.pop(context);
         }
       },

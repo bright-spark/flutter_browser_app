@@ -38,16 +38,14 @@ class _BrowserState extends State<Browser> with SingleTickerProviderStateMixin {
   getIntentData() async {
     if (Util.isAndroid()) {
       String? url = await platform.invokeMethod("getIntentData");
-      if (url != null) {
-        if (mounted) {
-          var browserModel = Provider.of<BrowserModel>(context, listen: false);
-          browserModel.addTab(WebViewTab(
-            key: GlobalKey(),
-            webViewModel: WebViewModel(url: WebUri(url)),
-          ));
-        }
+      if (mounted) {
+        var browserModel = Provider.of<BrowserModel>(context, listen: false);
+        browserModel.addTab(WebViewTab(
+          key: GlobalKey(),
+          webViewModel: WebViewModel(url: WebUri(url)),
+        ));
       }
-    }
+        }
   }
 
   @override
